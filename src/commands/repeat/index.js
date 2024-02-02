@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from 'discord.js'
 
 export const command = new SlashCommandBuilder()
-.setName('say')
+.setName('說')
 .setDescription('機器人說')
 .addStringOption(option =>
     option.setName('message')

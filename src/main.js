@@ -7,7 +7,7 @@ import {useAppStore} from '@/store/app'
 vueinit() //初始化
 dotenv.config() //讀取env
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] }); //創建實體
+const client = new Client({ intents: [GatewayIntentBits.Guilds,GatewayIntentBits.GuildMessages,GatewayIntentBits.MessageContent] }); //創建實體
 const appStore = new useAppStore()
 appStore.client = client
 
