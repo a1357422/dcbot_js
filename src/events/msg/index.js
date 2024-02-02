@@ -1,4 +1,5 @@
 import { Events } from 'discord.js';
+import fs from 'fs/promises';
 
 export const event = {
     name: Events.MessageCreate,

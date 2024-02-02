@@ -5,13 +5,15 @@ export const command = new SlashCommandBuilder()
     .setDescription('抽籤')
     .addStringOption(option =>
         option.setName('items')
-            .setDescription('要抽的東西')
+            .setDescription('要抽的選項')
             .setRequired(true));
 
 export const action = async (ctx) => {
     const options = ctx.options.getString('items').split(" ");
 
-    const thinkingMessage = await ctx.reply('讓我思考一下！');
+    await ctx.reply(`所有選項：\n${options.map(option => `- ${option}`).join('\n')}`);
+    
+    const thinkingMessage = await ctx.channel.send('讓我思考一下！');
 
     await new Promise(resolve => setTimeout(resolve, 1000));
     
