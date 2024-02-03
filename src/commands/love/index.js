@@ -6,6 +6,11 @@ export const command = new SlashCommandBuilder()
     .setDescription('顯示戀愛天數')
 
 export const action = async (ctx) => {
+    const allowedChannels = ['835113505282981910']; // 替換為您允許的頻道ID
+    if (!allowedChannels.includes(ctx.channelId)) {
+        await ctx.reply("此指令僅在特定頻道可用。");
+        return;
+    }
     const embed = new EmbedBuilder()
     let date
     const fileContent = await fs.readFile('src/commands/love/love.json', 'utf-8')

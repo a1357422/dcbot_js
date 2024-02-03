@@ -14,6 +14,11 @@ export const command = new SlashCommandBuilder()
             .setRequired(false))
 
 export const action = async (ctx) => {
+    const allowedChannels = ['860113767669301258']; // 替換為您允許的頻道ID
+    if (!allowedChannels.includes(ctx.channelId)) {
+        await ctx.reply("此指令僅在特定頻道可用。");
+        return;
+    }
     const money = ctx.options.getString('金額')
     const description = ctx.options.getString('詳細資料')
     const embed = new EmbedBuilder()
