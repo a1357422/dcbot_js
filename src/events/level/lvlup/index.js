@@ -22,6 +22,7 @@ export const action = async (message) => {
                 level: 0,
                 exp: 0
             };
+            await fs.writeFile('src/events/level/level.json', JSON.stringify(userdata, null, 2))
         }
 
         const exp = userdata[message.author.id].exp;
