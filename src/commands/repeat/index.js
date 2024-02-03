@@ -6,13 +6,13 @@ export const command = new SlashCommandBuilder()
 .addStringOption(option =>
     option.setName('message')
         .setDescription('要說的話')
-        .setRequired(true));
+        .setRequired(true))
 
 export const action = async (ctx) => {
-    const message = ctx.options.getString('message');
+    const message = ctx.options.getString('message')
     if (!message) {
-        await ctx.reply('請提供要說的話');
-        return;
+        await ctx.reply('請提供要說的話')
+        return
     }
-    await ctx.reply(message);
+    await ctx.reply(message)
 }

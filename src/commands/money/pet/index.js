@@ -1,5 +1,5 @@
-import { SlashCommandBuilder,EmbedBuilder } from 'discord.js';
-import fs from 'fs/promises';
+import { SlashCommandBuilder,EmbedBuilder } from 'discord.js'
+import fs from 'fs/promises'
 
 export const command = new SlashCommandBuilder()
     .setName('寵物')
@@ -14,14 +14,14 @@ export const command = new SlashCommandBuilder()
             .setRequired(false))
 
 export const action = async (ctx) => {
-    const money = ctx.options.getString('金額');
+    const money = ctx.options.getString('金額')
     const description = ctx.options.getString('詳細資料')
     const embed = new EmbedBuilder()
 
-    let moneyData;
+    let moneyData
     try {
-        const fileContent = await fs.readFile('src/commands/money/money.json', 'utf-8');
-        moneyData = JSON.parse(fileContent);
+        const fileContent = await fs.readFile('src/commands/money/money.json', 'utf-8')
+        moneyData = JSON.parse(fileContent)
         embed.setTitle('寵物基金')
         .setColor('#33FF33')
         .addFields(
@@ -32,9 +32,9 @@ export const action = async (ctx) => {
         .setTimestamp()
         .setFooter({ text: 'TADA！'})
     } catch (error) {
-        console.error('無法讀取 JSON 文件:', error);
-        await ctx.reply('紀錄失敗');
-        return;
+        console.error('無法讀取 JSON 文件:', error)
+        await ctx.reply('紀錄失敗')
+        return
     }
 
     if(money){
@@ -42,11 +42,11 @@ export const action = async (ctx) => {
         moneyData.Pet = (moneyData.Pet || 0) + parseInt(money)
 
         try {
-            await fs.writeFile('src/commands/money/money.json', JSON.stringify(moneyData, null, 2));
+            await fs.writeFile('src/commands/money/money.json', JSON.stringify(moneyData, null, 2))
         } catch (error) {
-            console.error('無法寫入 JSON 文件:', error);
-            await ctx.reply('紀錄失敗');
-            return;
+            console.error('無法寫入 JSON 文件:', error)
+            await ctx.reply('紀錄失敗')
+            return
         }
         embed.setTitle('雞腿基金')
             .setDescription('記帳成功！')
@@ -63,5 +63,5 @@ export const action = async (ctx) => {
             embed.addFields({name:'詳細資料',value: description})
         }
     }
-    await ctx.reply({ embeds: [embed] });
-};
+    await ctx.reply({ embeds: [embed] })
+}

@@ -1,5 +1,5 @@
-import { SlashCommandBuilder,EmbedBuilder } from 'discord.js';
-import fs from 'fs/promises';
+import { SlashCommandBuilder,EmbedBuilder } from 'discord.js'
+import fs from 'fs/promises'
 
 export const command = new SlashCommandBuilder()
     .setName('戀愛日期')
@@ -26,6 +26,6 @@ export const action = async (ctx) => {
         .setTimestamp()
         .setFooter({ text: 'TADA！'})
 
-    await ctx.reply({ embeds: [embed] });
+    await ctx.reply({ embeds: [embed] })
     
-};
+}
