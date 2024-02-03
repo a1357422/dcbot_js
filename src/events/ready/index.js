@@ -16,7 +16,6 @@ export const action = async(c) => {
     data = JSON.parse(fileContent)
     c.user.setActivity(`在一起第${data.Datingdate}天`, { type: ActivityType.Playing }) 
     const anniversary = new Date(data.anniversary)
-    data.nowday = `${(new Date().getMonth()+1).toString().padStart(2,'0')}${new Date().getDate().toString().padStart(2,'0')}`
     await fs.writeFile('src/commands/love/love.json', JSON.stringify(data, null, 2))
     setInterval(async() => {
         const now = new Date()
@@ -27,7 +26,6 @@ export const action = async(c) => {
             var timeDiff = Math.abs(now - anniversary)
             var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24))
             data.Datingdate = diffDays
-            data.nowday = `${(new Date().getMonth()+1).toString().padStart(2,'0')}${new Date().getDate().toString().padStart(2,'0')}`
             try {
                 await fs.writeFile('src/commands/love/love.json', JSON.stringify(data, null, 2))
             } catch (error) {
