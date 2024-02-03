@@ -4,24 +4,24 @@ import { useAppStore } from '@/store/app'
 
 const updataCommands = async(commands)=>{
     const rest = new REST({version:10}).setToken(process.env.TOKEN)
-    //所有伺服器
-    // const result = await rest.put(
-    //     Routes.applicationCommands(process.env.APPLICATION_ID), 
-    //     { 
-    //         body: commands 
-    //     },
-    // )
-
-    //單伺服器
+    // 所有伺服器
     const result = await rest.put(
-        Routes.applicationGuildCommands(
-            process.env.APPLICATION_ID,
-            '858163003819294722',
-        ),
-        {
-            body: commands,
+        Routes.applicationCommands(process.env.APPLICATION_ID), 
+        { 
+            body: commands 
         },
     )
+
+    //單伺服器
+    // const result = await rest.put(
+    //     Routes.applicationGuildCommands(
+    //         process.env.APPLICATION_ID,
+    //         '600638863135997953',
+    //     ),
+    //     {
+    //         body: commands,
+    //     },
+    // )
     console.log(result)
 }
 

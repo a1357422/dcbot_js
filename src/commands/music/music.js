@@ -38,11 +38,6 @@ class Music {
         this.dispatcher = {};
     }
 
-    // 取得指令列表
-    command(interaction) {
-        interaction.reply({ content: `【播放音樂】/play url:音樂網址\n【暫停播放】/pause\n【恢復播放】/resume\n【跳過這首歌曲】/skip\n【查看歌曲隊列】/queue\n【刪除播放清單中的所有歌曲】/deleteplaylist id:id\n【查看機器人指令】/command\n【讓機器人離開語音頻道（會清空歌曲隊列）】/leave` });
-    }
-
     // 判斷網址是否為播放清單
     isPlayList(url) {
         if (url.indexOf('&list') > -1 && url.indexOf('music.youtube') < 0) {
@@ -54,10 +49,11 @@ class Music {
 
     // 將機器人加入語音、處理歌曲資訊
     async play(interaction) {
-        const Playembed = new EmbedBuilder()
+        const Playerlistembed = new EmbedBuilder()
+        const Playerembed = new EmbedBuilder()
         // 語音群的 ID
         const guildID = interaction.guildId;
-    
+
         // 如果使用者不在語音頻道中則發出警告並返回
         if (interaction.member.voice.channel === null) {
             interaction.reply({ content: '請先進入語音頻道', ephemeral: true });
@@ -92,8 +88,21 @@ class Music {
     
                 // 取得前 10 筆播放清單的列表歌曲
                 const videoTitles = res.videos.map((v, i) => `[${i + 1}] ${v.title}`).slice(0, 10).join('\n');
-                interaction.channel.send(`**加入播放清單：${musicName}**\nID 識別碼：[${res.id}]\n==========================\n${videoTitles}\n……以及其他 ${res.videos.length - 10} 首歌 `);
-    
+                res.videos.slice(0, 10).forEach((v, i) => {
+                    Playerlistembed.addFields({
+                        name: `歌曲 ${i + 1}`,value: `[${v.title}]`
+                    });
+                });
+                if (res.videos.length > 10) {
+                    Playerlistembed.setFooter({
+                        text: `與其他 ${res.videos.length - 10} 首歌`
+                    });
+                }
+                // ID 識別碼：[${res.id}]\n
+                // interaction.channel.send(`**加入播放清單：${musicName}**\n==========================\n${videoTitles}\n……以及其他 ${res.videos.length - 10} 首歌 `);
+                Playerlistembed.setTitle('**歌曲已加入隊列**')
+                    
+                interaction.channel.send({ embeds: [Playerlistembed] });
                 // 依序將播放清單歌曲寫入隊列資料中
                 res.videos.forEach(v => {
                     this.queue[guildID].push({
@@ -101,7 +110,7 @@ class Music {
                         name: v.title,
                         url: v.url
                     });
-                });
+                    });
     
             } else {
                 // 若輸入的不是URL，而是文字搜尋
@@ -122,18 +131,21 @@ class Music {
     
             // 如果目前正在播放歌曲就加入隊列，反之則播放歌曲
             if (this.isPlaying[guildID]) {
-                Playembed.setTitle('**歌曲已加入隊列**')
+                Playerlistembed.setTitle('**歌曲已加入隊列**')
                 .setDescription(`歌曲名稱：${musicName}`)
                 .setTimestamp(new Date())
                 
-                interaction.reply({ embeds: [Playembed] });
+                interaction.reply({ embeds: [Playerlistembed] });
             } else {
-                this.isPlaying[guildID] = true;
-                Playembed.setTitle(`🎵　播放音樂：${this.queue[guildID][0].name}`)
-                .setTimestamp(new Date())
+                    this.isPlaying[guildID] = true;
+                    Playerembed.setTitle(`🎵　播放音樂：${this.queue[guildID][0].name}`)
+                    .setTimestamp(new Date())
+                    
+                    interaction.reply({ content: '👌' });
+                    interaction.channel.send({ embeds: [Playerembed] });
+                    this.playMusic(interaction, this.queue[guildID][0], true);
                 
-                interaction.reply({ embeds: [Playembed] });
-                this.playMusic(interaction, this.queue[guildID][0], true);
+                
             }
     
         } catch (e) {
@@ -336,7 +348,7 @@ class Music {
                 // 離開頻道
                 this.connection[guildID].disconnect();
 
-                // interaction.reply({ content: '離開頻道' });
+                interaction.reply({ content: '👋' });
             } 
             else {
                 interaction.reply({ content: '機器人未加入任何頻道' });
