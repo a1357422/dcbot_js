@@ -181,13 +181,16 @@ class Music {
 
         // 伺服器 ID
         const guildID = interaction.guildId;
+        const Playerembed = new EmbedBuilder()
 
         try {
 
             // 提示播放音樂
             if (!isReplied) {
-                const content = `🎵　播放音樂：${musicInfo.name}`;
-                interaction.channel.send(content);
+                // const content = `🎵　播放音樂：${musicInfo.name}`;
+                Playerembed.setTitle(`🎵　播放音樂：${this.queue[guildID][0].name}`)
+                    .setTimestamp(new Date())
+                interaction.channel.send({embeds: [Playerembed]});
             }
             
             // 播放音樂
