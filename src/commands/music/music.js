@@ -138,7 +138,8 @@ class Music {
                 interaction.reply({ embeds: [Playerlistembed] });
             } else {
                     this.isPlaying[guildID] = true;
-                    Playerembed.setTitle(`🎵　播放音樂：${this.queue[guildID][0].name}`)
+                    Playerembed.setTitle(`**現在播放**`)
+                    .setDescription(`🎵　播放音樂：${this.queue[guildID][0].name}`)
                     .setTimestamp(new Date())
                     
                     interaction.reply({ content: '👌' });
@@ -188,7 +189,8 @@ class Music {
             // 提示播放音樂
             if (!isReplied) {
                 // const content = `🎵　播放音樂：${musicInfo.name}`;
-                Playerembed.setTitle(`🎵　播放音樂：${this.queue[guildID][0].name}`)
+                Playerembed.setTitle(`**現在播放**`)
+                    .setDescription(`🎵　播放音樂：${this.queue[guildID][0].name}`)
                     .setTimestamp(new Date())
                 interaction.channel.send({embeds: [Playerembed]});
             }
@@ -262,11 +264,14 @@ class Music {
 
     // 跳過目前歌曲
     skip(interaction) {
-
+        const embed = new EmbedBuilder()
         const guildID = interaction.guildId;
         if (this.dispatcher[guildID]) {
             this.dispatcher[guildID].stop();
-            interaction.reply({ content: '⏭️' });
+            embed.setTitle(`⏭️`)
+            .setDescription(`**現在播放** \n🎵　播放音樂：${this.queue[guildID][0].name}`)
+                    .setTimestamp(new Date())
+            interaction.reply({embeds:[embed]});
         } else {
             interaction.reply({ content: '機器人目前未加入頻道' });
         }
