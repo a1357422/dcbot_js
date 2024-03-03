@@ -13,8 +13,19 @@ export const action = async (c) => {
     let data
     const fileContent = await fs.readFile('src/commands/love/love.json', 'utf-8')
     data = JSON.parse(fileContent)
-    c.user.setActivity(`在一起第${data.Datingdate}天`, { type: ActivityType.Playing })
+    const now = new Date()
     const anniversary = new Date(data.anniversary)
+    var timeDiff = Math.abs(now - anniversary)
+    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24))
+    data.Datingdate = diffDays
+    try {
+        await fs.writeFile('src/commands/love/love.json', JSON.stringify(data, null, 2))
+        c.user.setActivity(`在一起第${data.Datingdate}天`, { type: ActivityType.Playing })
+    } catch (error) {
+        console.error('無法寫入 JSON 文件:', error)
+        await ctx.reply('紀錄失敗')
+        return
+    }
     await fs.writeFile('src/commands/love/love.json', JSON.stringify(data, null, 2))
     setInterval(async () => {
         const now = new Date()
