@@ -14,17 +14,17 @@ export const action = async (react,user) => {
 			return
 		}
 	}
-    if (react.message.id !== '1068796312599941140' || user.bot) return
+    if (react.message.id !== '1257172996733538366' || user.bot) return
     const member = react.message.guild.members.cache.find(member => member.id === user.id)
     if (!member) return
     let userName = user.globalName
     if (userName == null)
     userName = user.username
-    if (react.emoji.id === '1087761843071754311') {
+    if (react.emoji.id === '802589433894928464') {
         const newChannel = await react.message.guild.channels.create({
             name: `${userName}的臨時頻道`,
             type: ChannelType.GuildVoice,
-            parent: '1203200036628996096',
+            parent: '495790074441498627',
             userLimit: 4,
           });
 
@@ -34,6 +34,7 @@ export const action = async (react,user) => {
         } catch (error) {
             user.send(`請先加入一個語音頻道`)
             await newChannel.delete()
+            await react.users.remove(user.id)
         }
     }
 }

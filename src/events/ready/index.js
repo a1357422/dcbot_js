@@ -9,7 +9,8 @@ export const event = {
 
 export const action = async (c) => {
     console.log(`${c.user.tag}已上線`)
-    const channelId = '858256727924801556'
+    // const channelId = '858181593412010004'
+    const channelId = '1260593983202136176'
     let data
     const fileContent = await fs.readFile('src/commands/love/love.json', 'utf-8')
     data = JSON.parse(fileContent)
@@ -33,18 +34,17 @@ export const action = async (c) => {
         const channel = c.channels.cache.get(channelId)
         if (nowTime === '24:00:00') {
             const embed = new EmbedBuilder()
-            embed.setTitle('ChihHao❤YanChih')
+            embed.setTitle('ChihHao❤YUICHI')
                 .setColor('#33FF33')
-                .setDescription('2021/04/25')
                 .addFields(
                     { name: '我的生日', value: '2002/07/20', inline: true },
-                    { name: '💙💛💙💛💙', value: '💙💛💙💛💙', inline: true },
-                    { name: '她的生日', value: '2001/12/13', inline: true },
-                    { name: '交往的日子', value: '2021/04/25', inline: true },
-                    { name: '💛💙💛💙💛', value: '💛💙💛💙💛', inline: true },
+                    { name: '☀.☁.⛰︎.༄♡.✉', value: '✉.༄♡.⛰︎.☁.☀', inline: true },
+                    { name: '她的生日', value: '2005/08/13', inline: true },
+                    { name: '交往的日子', value: '2024/06/22', inline: true },
+                    { name: '✉.༄♡.⛰︎.☁.☀', value: '☀.☁.⛰︎.༄♡.✉', inline: true },
                 )
-                .setAuthor({ name: '至昊製作', iconURL: 'https://i.imgur.com/u32rqDT.jpg', url: "https://www.instagram.com/chihhao_0720/" })
-                .setThumbnail('https://i.imgur.com/RsSbMM1.jpg')
+                .setAuthor({ name: '至昊製作', iconURL: 'https://imgur.com/TURhDUo.jpeg', url: "https://www.instagram.com/chihhao_0720/" })
+                .setThumbnail('https://i.imgur.com/llOcNHq.jpeg')
                 .setTimestamp()
                 .setFooter({ text: 'TADA！' })
             console.log(`今天是${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`)

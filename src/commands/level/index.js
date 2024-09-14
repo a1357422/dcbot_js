@@ -58,7 +58,7 @@ export const action = async (ctx) => {
         // 回覆使用者等級信息
         embed.setTitle(`**${userName} 等級 ${level}!**`)
             .setDescription(':fire:')
-            .setThumbnail('https://i.imgur.com/RsSbMM1.jpg')
+            // .setThumbnail('https://i.imgur.com/RsSbMM1.jpg')
             .setTimestamp()
             .setFooter({ text: '至昊製作'})
 

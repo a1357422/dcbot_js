@@ -27,13 +27,13 @@ export const action = async (ctx) => {
     try {
         const fileContent = await fs.readFile('src/commands/money/money.json', 'utf-8')
         moneyData = JSON.parse(fileContent)
-        embed.setTitle('寵物基金')
+        embed.setTitle('')
         .setColor('#33FF33')
         .addFields(
-        {name:'寵物基金總金額', value:moneyData.Pet.toString(),inline: true},
+        {name:'', value:moneyData.Pet.toString(),inline: true},
         )
-        .setAuthor({ name: '至昊製作', iconURL: 'https://i.imgur.com/u32rqDT.jpg', url: 'https://www.instagram.com/chihhao_0720/' })
-        .setThumbnail('https://i.imgur.com/RsSbMM1.jpg')
+        .setAuthor({ name: '至昊製作', url: 'https://www.instagram.com/chihhao_0720/' })
+        // .setThumbnail('https://i.imgur.com/RsSbMM1.jpg')
         .setTimestamp()
         .setFooter({ text: 'TADA！'})
     } catch (error) {
@@ -53,15 +53,15 @@ export const action = async (ctx) => {
             await ctx.reply('紀錄失敗')
             return
         }
-        embed.setTitle('雞腿基金')
+        embed.setTitle('')
             .setDescription('記帳成功！')
             .setColor('#33FF33')
             .addFields(
             {name:'儲存金額',value:money,inline: true},
-            {name:'雞腿基金總金額', value:moneyData.Pet.toString(),inline: true},
+            {name:'總金額', value:moneyData.Pet.toString(),inline: true},
             )
-            .setAuthor({ name: '至昊製作', iconURL: 'https://i.imgur.com/u32rqDT.jpg', url: 'https://www.instagram.com/chihhao_0720/' })
-            .setThumbnail('https://i.imgur.com/RsSbMM1.jpg')
+            .setAuthor({ name: '至昊製作', url: 'https://www.instagram.com/chihhao_0720/' })
+            // .setThumbnail('https://i.imgur.com/RsSbMM1.jpg')
             .setTimestamp()
             .setFooter({ text: 'TADA！'})
         if(description){

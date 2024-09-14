@@ -2,8 +2,8 @@ import { SlashCommandBuilder,EmbedBuilder } from 'discord.js'
 import fs from 'fs/promises'
 
 export const command = new SlashCommandBuilder()
-    .setName('旅遊')
-    .setDescription('旅遊基金記帳')
+    .setName('')
+    .setDescription('')
     .addStringOption(option =>
         option.setName('金額')
             .setDescription('記帳的金額(若留空則顯示現在金額)')
@@ -27,13 +27,13 @@ export const action = async (ctx) => {
     try {
         const fileContent = await fs.readFile('src/commands/money/money.json', 'utf-8')
         moneyData = JSON.parse(fileContent)
-        embed.setTitle('旅遊基金')
+        embed.setTitle('')
         .setColor('#33FF33')
         .addFields(
-        {name:'旅遊基金總金額', value:moneyData.Play.toString(),inline: true},
+        {name:'總金額', value:moneyData.Play.toString(),inline: true},
         )
-        .setAuthor({ name: '至昊製作', iconURL: 'https://i.imgur.com/u32rqDT.jpg', url: 'https://www.instagram.com/chihhao_0720/' })
-        .setThumbnail('https://i.imgur.com/RsSbMM1.jpg')
+        .setAuthor({ name: '至昊製作', url: 'https://www.instagram.com/chihhao_0720/' })
+        // .setThumbnail('https://i.imgur.com/RsSbMM1.jpg')
         .setTimestamp()
         .setFooter({ text: 'TADA！'})
     } catch (error) {
@@ -52,15 +52,15 @@ export const action = async (ctx) => {
             await ctx.reply('紀錄失敗')
             return
         }
-        embed.setTitle('旅遊基金')
+        embed.setTitle('')
             .setDescription('記帳成功！')
             .setColor('#33FF33')
             .addFields(
             {name:'儲存金額',value:money,inline: true},
-            {name:'旅遊基金總金額', value:moneyData.Play.toString(),inline: true},
+            {name:'總金額', value:moneyData.Play.toString(),inline: true},
             )
-            .setAuthor({ name: '至昊製作', iconURL: 'https://i.imgur.com/u32rqDT.jpg', url: 'https://www.instagram.com/chihhao_0720/' })
-            .setThumbnail('https://i.imgur.com/RsSbMM1.jpg')
+            .setAuthor({ name: '至昊製作', url: 'https://www.instagram.com/chihhao_0720/' })
+            // .setThumbnail('https://i.imgur.com/RsSbMM1.jpg')
             .setTimestamp()
             .setFooter({ text: 'TADA！'})
         if(description){

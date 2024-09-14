@@ -1,6 +1,9 @@
 import {EmbedBuilder} from 'discord.js'
-import { joinVoiceChannel, createAudioPlayer, createAudioResource, NoSubscriberBehavior, AudioPlayerStatus } from '@discordjs/voice';
-import play from 'play-dl';
+const { createAudioPlayer, createAudioResource, joinVoiceChannel, NoSubscriberBehavior, AudioPlayerStatus } = require('@discordjs/voice');
+const play = require('play-dl');
+import dotenv from 'dotenv' //引入讀取env套件
+
+dotenv.config() //讀取env
 
 class Music {
 
@@ -43,6 +46,9 @@ class Music {
         if (url.indexOf('&list') > -1 && url.indexOf('music.youtube') < 0) {
             return true;
         }
+        else if (url.includes('spotify.com/playlist/')) {
+            return true;
+        }
 
         return false;
     }
@@ -80,7 +86,41 @@ class Music {
     
             // 檢查是否為播放清單
             const isPlayList = this.isPlayList(musicURL);
-            if (isPlayList) {
+
+            if (play.is_expired()) {
+                await play.refreshToken()
+            }
+
+            if (isPlayList && musicURL.includes('spotify.com/playlist/')) {
+                // 處理 Spotify 播放清單
+                const res = await play.spotify(musicURL);
+                musicName = res.name;
+    
+                // 取得前 10 首歌曲
+                res.tracks.items.slice(0, 10).forEach((track, i) => {
+                    Playerlistembed.addFields({
+                        name: `歌曲 ${i + 1}`, value: `[${track.name}]`
+                    });
+                });
+    
+                if (res.tracks.items.length > 10) {
+                    Playerlistembed.setFooter({
+                        text: `與其他 ${res.tracks.items.length - 10} 首歌`
+                    });
+                }
+    
+                Playerlistembed.setTitle('**歌曲已加入隊列**');
+                interaction.channel.send({ embeds: [Playerlistembed] });
+    
+                res.tracks.items.forEach(track => {
+                    this.queue[guildID].push({
+                        id: res.id,
+                        name: track.name,
+                        url: track.external_urls.spotify
+                    });
+                });
+            }    
+            else if (isPlayList) {
     
                 // 取得播放清單的資訊
                 const res = await play.playlist_info(musicURL);

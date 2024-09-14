@@ -22,7 +22,7 @@ const updataCommands = async (commands) => {
     //         body: commands,
     //     },
     // )
-    console.log(result)
+    // console.log(result)
 }
 
 export const loadCommands = async () => {
